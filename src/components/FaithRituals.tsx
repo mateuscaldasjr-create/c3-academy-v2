@@ -1,54 +1,58 @@
-import React from 'react';
-import { Calendar, CheckCircle2, Flame, Book } from 'lucide-react';
-import { cn } from '../utils'; // <--- ESTA LINHA FOI CORRIGIDA
-
-const habits = [
-  { id: 1, name: 'Oração (30min)', streak: 12, history: [true, true, true, true, true, false, true] },
-  { id: 2, name: 'Leitura Bíblica', streak: 45, history: [true, true, true, true, true, true, true] },
-  { id: 3, name: 'Jejum Intermitente', streak: 5, history: [false, true, true, true, true, true, false] },
-  { id: 4, name: 'Exercício Físico', streak: 8, history: [true, false, true, true, true, true, true] },
-];
-
-const days = ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'];
+import React, { useState } from 'react';
+import { CheckCircle2, Flame, Plus, Trophy } from 'lucide-react';
+import { cn } from '../utils';
 
 export function FaithRituals() {
+  // Estado local para simular o banco de dados enquanto você não cria as tabelas
+  const [habits, setHabits] = useState([
+    { id: 1, name: 'Oração Matinal', streak: 12, completed: true },
+    { id: 2, name: 'Leitura Bíblica', streak: 45, completed: false },
+    { id: 3, name: 'Jejum Intermitente', streak: 5, completed: false },
+  ]);
+
+  const toggleHabit = (id: number) => {
+    setHabits(habits.map(h => 
+      h.id === id ? { ...h, completed: !h.completed, streak: !h.completed ? h.streak + 1 : h.streak - 1 } : h
+    ));
+  };
+
   return (
-    <div className="space-y-6 h-full">
+    <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-serif text-white">Rituais de Fé</h2>
-          <p className="text-white/40 text-sm">Consistência gera autoridade espiritual.</p>
+          <h2 className="text-3xl font-serif text-white">Rituais de Consagração</h2>
+          <p className="text-white/40 text-sm">A disciplina é a forma mais alta de adoração.</p>
         </div>
+        <button className="flex items-center gap-2 px-4 py-2 bg-c3gold text-c3dark rounded-xl font-bold hover:scale-105 transition-all">
+          <Plus size={18} /> NOVO RITUAL
+        </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {habits.map((habit) => (
-          <div key={habit.id} className="glass-panel p-6 rounded-2xl border border-white/5 hover:border-c3-gold/20 transition-all group">
+          <div key={habit.id} 
+            onClick={() => toggleHabit(habit.id)}
+            className={cn(
+              "glass-panel p-6 rounded-[2rem] border transition-all cursor-pointer group",
+              habit.completed ? "border-c3gold/50 bg-c3gold/5" : "border-white/5 hover:border-white/20"
+            )}>
             <div className="flex justify-between items-start mb-6">
-              <div>
-                <h4 className="text-white font-medium mb-1">{habit.name}</h4>
-                <div className="flex items-center gap-2">
-                  <Flame className="w-3 h-3 text-c3-gold" />
-                  <span className="text-[10px] text-c3-gold font-mono uppercase tracking-tighter">{habit.streak} dias de streak</span>
-                </div>
+              <div className={cn(
+                "p-3 rounded-2xl transition-colors",
+                habit.completed ? "bg-c3gold text-c3dark" : "bg-white/5 text-white/20"
+              )}>
+                <Flame size={24} />
               </div>
-              <button className="p-2 bg-c3-gold/10 text-c3-gold rounded-lg hover:bg-c3-gold hover:text-[#0A0F1D] transition-colors">
-                <CheckCircle2 className="w-5 h-5" />
-              </button>
+              <div className="text-right">
+                <p className="text-2xl font-black text-white">{habit.streak}</p>
+                <p className="text-[10px] text-white/40 uppercase tracking-widest">Dias</p>
+              </div>
             </div>
-
-            <div className="flex justify-between items-end gap-2">
-              {habit.history.map((completed, i) => (
-                <div key={i} className="flex flex-col items-center gap-2 flex-1">
-                  <div className={cn(
-                    "w-full aspect-square rounded-md transition-all",
-                    completed 
-                      ? "bg-c3-gold shadow-[0_0_10px_rgba(212,175,55,0.2)]" 
-                      : "bg-white/5 border border-white/5"
-                  )} />
-                  <span className="text-[10px] text-white/20 font-mono">{days[i]}</span>
-                </div>
-              ))}
+            <h3 className="text-lg font-bold text-white mb-1">{habit.name}</h3>
+            <p className="text-xs text-white/40 mb-4">{habit.completed ? "Concluído hoje" : "Pendente"}</p>
+            
+            <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+              <div className="h-full bg-c3gold transition-all duration-500" style={{ width: habit.completed ? '100%' : '30%' }} />
             </div>
           </div>
         ))}
