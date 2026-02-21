@@ -1,6 +1,6 @@
 import React from 'react';
 import { Calendar, CheckCircle2, Flame, Book } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '../utils'; // <--- ESTA LINHA FOI CORRIGIDA
 
 const habits = [
   { id: 1, name: 'Oração (30min)', streak: 12, history: [true, true, true, true, true, false, true] },
@@ -19,28 +19,20 @@ export function FaithRituals() {
           <h2 className="text-2xl font-serif text-white">Rituais de Fé</h2>
           <p className="text-white/40 text-sm">Consistência gera autoridade espiritual.</p>
         </div>
-        <button className="px-4 py-2 bg-c3-gold text-[#0A0F1D] rounded-lg font-medium hover:bg-c3-gold-dim transition-colors">
-          Novo Registro
-        </button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {habits.map((habit) => (
-          <div key={habit.id} className="glass-panel p-6 rounded-2xl hover:border-c3-gold/30 transition-colors group">
+          <div key={habit.id} className="glass-panel p-6 rounded-2xl border border-white/5 hover:border-c3-gold/20 transition-all group">
             <div className="flex justify-between items-start mb-6">
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-white/5 text-c3-gold group-hover:bg-c3-gold/10 transition-colors">
-                  <Flame className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-medium text-white">{habit.name}</h3>
-                  <p className="text-xs text-white/40 flex items-center gap-1">
-                    <Flame className="w-3 h-3 text-orange-500" />
-                    {habit.streak} dias seguidos
-                  </p>
+              <div>
+                <h4 className="text-white font-medium mb-1">{habit.name}</h4>
+                <div className="flex items-center gap-2">
+                  <Flame className="w-3 h-3 text-c3-gold" />
+                  <span className="text-[10px] text-c3-gold font-mono uppercase tracking-tighter">{habit.streak} dias de streak</span>
                 </div>
               </div>
-              <button className="text-white/20 hover:text-white transition-colors">
+              <button className="p-2 bg-c3-gold/10 text-c3-gold rounded-lg hover:bg-c3-gold hover:text-[#0A0F1D] transition-colors">
                 <CheckCircle2 className="w-5 h-5" />
               </button>
             </div>
@@ -60,20 +52,6 @@ export function FaithRituals() {
             </div>
           </div>
         ))}
-      </div>
-
-      {/* Weekly Devotional */}
-      <div className="glass-panel p-8 rounded-2xl mt-6">
-        <div className="flex items-center gap-4 mb-6">
-          <Book className="w-6 h-6 text-c3-gold" />
-          <h3 className="text-lg font-serif text-white">Leitura da Semana: Neemias</h3>
-        </div>
-        <div className="prose prose-invert max-w-none">
-          <p className="text-white/60 leading-relaxed">
-            "A reconstrução dos muros de Jerusalém nos ensina sobre foco, liderança e resistência à oposição. 
-            Assim como Neemias, devemos estar com uma mão na obra e outra na espada (oração e trabalho)."
-          </p>
-        </div>
       </div>
     </div>
   );
