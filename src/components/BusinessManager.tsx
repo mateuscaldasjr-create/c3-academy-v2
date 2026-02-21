@@ -1,30 +1,42 @@
 import React from 'react';
-import { DollarSign, TrendingUp, Users, Briefcase } from 'lucide-react';
+import { DollarSign, TrendingUp, Users, Target } from 'lucide-react';
 
 export function BusinessManager() {
-  const kpis = [
-    { label: 'Faturamento', value: 'R$ 45.200', icon: DollarSign },
-    { label: 'Margem', value: '32%', icon: TrendingUp },
-    { label: 'LTV', value: 'R$ 1.200', icon: Users },
-    { label: 'CAC', value: 'R$ 150', icon: Briefcase },
+  const stats = [
+    { label: 'Faturamento Real', value: 'R$ 185.400', color: 'text-green-400' },
+    { label: 'Projeção', value: 'R$ 250.000', color: 'text-c3gold' },
   ];
 
   return (
     <div className="space-y-8">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        {kpis.map((kpi, i) => (
-          <div key={i} className="glass-panel p-6 rounded-2xl border border-white/5">
-            <kpi.icon className="text-[#D4AF37] mb-4" size={24} />
-            <p className="text-2xl font-bold text-white">{kpi.value}</p>
-            <p className="text-[10px] text-white/40 uppercase tracking-widest">{kpi.label}</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {stats.map((s, i) => (
+          <div key={i} className="glass-panel p-8 rounded-[2.5rem] border border-white/10 relative overflow-hidden">
+            <div className="absolute top-0 right-0 p-8 opacity-10"><DollarSign size={80} /></div>
+            <p className="text-white/40 text-xs uppercase tracking-[0.2em] mb-2">{s.label}</p>
+            <p className={`text-4xl font-black ${s.color}`}>{s.value}</p>
           </div>
         ))}
       </div>
-      <div className="glass-panel p-8 rounded-[2rem] border border-white/10">
-        <h3 className="text-lg font-serif mb-6">Pipeline de Vendas</h3>
-        <div className="h-32 flex items-end gap-2">
-          {[60, 80, 45, 90, 100].map((h, i) => (
-            <div key={i} style={{ height: `${h}%` }} className="flex-1 bg-[#D4AF37]/20 border-t-2 border-[#D4AF37] rounded-t-lg" />
+
+      <div className="glass-panel p-8 rounded-[2.5rem] border border-white/5">
+        <h3 className="text-xl font-serif text-white mb-8 flex items-center gap-3">
+          <Target className="text-c3gold" /> Funil de Conversão
+        </h3>
+        <div className="space-y-6">
+          {['Prospecção', 'Qualificação', 'Proposta', 'Fechamento'].map((step, i) => (
+            <div key={i} className="relative">
+              <div className="flex justify-between mb-2 text-sm">
+                <span className="text-white/60">{step}</span>
+                <span className="text-c3gold font-mono">R$ {100 - (i * 20)}k</span>
+              </div>
+              <div className="w-full h-3 bg-white/5 rounded-full overflow-hidden border border-white/5">
+                <div 
+                  className="h-full bg-gradient-to-r from-c3gold/20 to-c3gold transition-all duration-1000" 
+                  style={{ width: `${100 - (i * 20)}%` }} 
+                />
+              </div>
+            </div>
           ))}
         </div>
       </div>
