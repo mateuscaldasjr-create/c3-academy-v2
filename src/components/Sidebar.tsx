@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, Flame, BookOpen, Briefcase, Users, Settings, LogOut, X } from 'lucide-react';
+import { LayoutDashboard, Flame, BookOpen, Briefcase, Users, Settings, LogOut } from 'lucide-react';
 import { cn } from '../utils';
 
 interface SidebarProps {
@@ -12,7 +12,7 @@ interface SidebarProps {
 export function Sidebar({ isOpen, setIsOpen, activeTab, setActiveTab }: SidebarProps) {
   const menuItems = [
     { id: 'dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-    { id: 'cave', icon: Flame, label: 'Iniciar Caverna' },
+    { id: 'cave-mode', icon: Flame, label: 'Iniciar Caverna' }, // ID CORRIGIDO AQUI
     { id: 'rituals', icon: BookOpen, label: 'Rituais de Fé' },
     { id: 'business', icon: Briefcase, label: 'Gestão de Negócios' },
     { id: 'community', icon: Users, label: 'Comunidade' },
@@ -26,14 +26,26 @@ export function Sidebar({ isOpen, setIsOpen, activeTab, setActiveTab }: SidebarP
         <div className="flex flex-col h-full p-6">
           <div className="flex items-center justify-between mb-10">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-[#D4AF37] flex items-center justify-center shadow-lg shadow-[#D4AF37]/20"><span className="font-serif text-[#0A0F1D] font-bold text-xl">C3</span></div>
-              <div><h1 className="font-serif text-lg font-bold text-white">ACADEMY</h1></div>
+              <div className="w-10 h-10 rounded-lg bg-[#D4AF37] flex items-center justify-center shadow-lg shadow-[#D4AF37]/20">
+                <span className="font-serif text-[#0A0F1D] font-bold text-xl">C3</span>
+              </div>
+              <h1 className="font-serif text-lg font-bold text-white uppercase tracking-tighter">Academy</h1>
             </div>
           </div>
           <nav className="flex-1 space-y-2">
             {menuItems.map((item) => (
-              <button key={item.id} onClick={() => { setActiveTab(item.id); setIsOpen(false); }} className={cn("w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all", activeTab === item.id ? "bg-[#D4AF37]/10 text-[#D4AF37] border border-[#D4AF37]/20" : "text-white/60 hover:bg-white/5 hover:text-white")}>
-                <item.icon className="w-5 h-5" /><span className="font-medium text-sm">{item.label}</span>
+              <button 
+                key={item.id} 
+                onClick={() => { setActiveTab(item.id); setIsOpen(false); }} 
+                className={cn(
+                  "w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all", 
+                  activeTab === item.id 
+                    ? "bg-[#D4AF37]/10 text-[#D4AF37] border border-[#D4AF37]/20" 
+                    : "text-white/60 hover:bg-white/5 hover:text-white"
+                )}
+              >
+                <item.icon className="w-5 h-5" />
+                <span className="font-medium text-sm">{item.label}</span>
               </button>
             ))}
           </nav>
